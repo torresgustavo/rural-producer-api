@@ -13,9 +13,10 @@ class RuralProducer(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
     document_number = models.CharField(max_length=14)
-    document_type = models.ForeignKey("DocumentType", on_delete=models.CASCADE)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=100)
+
+    document_type = models.ForeignKey("DocumentType", on_delete=models.CASCADE)
 
     class Meta:
         db_table = "rural_producer"

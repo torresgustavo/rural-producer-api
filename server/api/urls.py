@@ -18,10 +18,10 @@ Including another URLconf
 from django.urls import path
 from .api import api
 
+
 @api.get("/")
 def hello(request):
     return "OK"
 
-urlpatterns = [
-    path("", api.urls)
-]
+
+urlpatterns = [path("", api.urls)]

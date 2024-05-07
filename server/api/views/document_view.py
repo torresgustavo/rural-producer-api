@@ -9,7 +9,7 @@ from api.schemas.document_view_schemas import DocumentsSchema
 
 router = Router()
 
-@router.get('/', response=List[DocumentsSchema])
+@router.get("/", response=List[DocumentsSchema])
 def get(request: HttpRequest):
     document_types = DocumentTypeRepository().get_all()
     return Response([DocumentsSchema.from_orm(document) for document in document_types])

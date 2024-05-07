@@ -6,18 +6,21 @@ import django.utils.timezone
 import uuid
 from django.db import migrations, models
 
+
 def insert_documents_types_initial_data(apps: django.apps.apps, schema_editor):
-    document_type_model = apps.get_model('api', 'DocumentType')
-    document_type_model.objects.create(name='CPF')
-    document_type_model.objects.create(name='CNPJ')
+    document_type_model = apps.get_model("api", "DocumentType")
+    document_type_model.objects.create(name="CPF")
+    document_type_model.objects.create(name="CNPJ")
+
 
 def insert_farm_culture_types_initial_data(apps: django.apps.apps, schema_editor):
-    culture_type_model = apps.get_model('api', 'FarmCultureType')
-    culture_type_model.objects.create(name='Soja')
-    culture_type_model.objects.create(name='Milho')
-    culture_type_model.objects.create(name='Algodão')
-    culture_type_model.objects.create(name='Café')
-    culture_type_model.objects.create(name='Cana de Açucar')
+    culture_type_model = apps.get_model("api", "FarmCultureType")
+    culture_type_model.objects.create(name="Soja")
+    culture_type_model.objects.create(name="Milho")
+    culture_type_model.objects.create(name="Algodão")
+    culture_type_model.objects.create(name="Café")
+    culture_type_model.objects.create(name="Cana de Açucar")
+
 
 class Migration(migrations.Migration):
 
@@ -186,5 +189,5 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.RunPython(insert_documents_types_initial_data),
-        migrations.RunPython(insert_farm_culture_types_initial_data)
+        migrations.RunPython(insert_farm_culture_types_initial_data),
     ]

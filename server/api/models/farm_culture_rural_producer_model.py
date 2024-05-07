@@ -17,5 +17,5 @@ class FarmCultureRuralProducer(BaseModel):
     used_hectare_area = models.DecimalField(max_digits=5, decimal_places=2)
 
     class Meta:
-        unique_together = ('farm_id', 'farm_culture_type')
+        unique_together = ("farm_id", "farm_culture_type")
         db_table = "farm_culture_rural_producer"
