@@ -5,7 +5,7 @@ from ninja import Router
 from ninja.responses import Response
 
 from api.repositories.document_type_repository import DocumentTypeRepository
-from server.api.schemas.document_schemas import DocumentsSchema
+from api.schemas.document_schemas import DocumentsSchema
 
 router = Router()
 
