@@ -16,12 +16,12 @@ Including another URLconf
 """
 
 from django.urls import path
-from rest_framework.urlpatterns import format_suffix_patterns
+from .api import api
 
-from api.views.document_view import DocumentTypesView
+@api.get("/")
+def hello(request):
+    return "OK"
 
 urlpatterns = [
-    path("document-types/", DocumentTypesView.as_view())
+    path("", api.urls)
 ]
-
-urlpatterns = format_suffix_patterns(urlpatterns)
