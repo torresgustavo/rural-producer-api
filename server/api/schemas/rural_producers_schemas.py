@@ -1,7 +1,7 @@
 from uuid import UUID
 from ninja.schema import Schema
 
-from api.schemas.document_view_schemas import DocumentsSchema
+from server.api.schemas.document_schemas import DocumentsSchema
 
 
 class RuralProducersSchema(Schema):
