@@ -4,20 +4,22 @@ from typing import TYPE_CHECKING
 from django.db import models
 
 from api.models.base import BaseModel
+from api.enums.document_types_enum import DocumentTypesEnum
 
 if TYPE_CHECKING:
-    from document_type_model import DocumentType
     from farm_rural_producer_model import FarmRuralProducer
 
-
 class RuralProducer(BaseModel):
+    class DocumentTypeChoices(models.TextChoices):
+        CPF = DocumentTypesEnum.CPF,
+        CNPJ = DocumentTypesEnum.CNPJ
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.CharField(max_length=255)
-    document_number = models.CharField(max_length=14)
+    document_number = models.CharField(max_length=14, unique=True)
+    document_type = models.CharField(choices=DocumentTypeChoices)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=100)
-
-    document_type = models.OneToOneField("DocumentType", on_delete=models.CASCADE)
 
     class Meta:
         db_table = "rural_producer"

@@ -1,6 +1,6 @@
 import uuid
 
-from typing import TYPE_CHECKING, List
+from typing import TYPE_CHECKING
 from django.db import models
 
 from api.models.base import BaseModel

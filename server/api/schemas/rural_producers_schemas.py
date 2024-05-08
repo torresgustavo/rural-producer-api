@@ -1,12 +1,12 @@
+from decimal import Decimal
 from typing import List, Optional
-from ninja import ModelSchema
-
-from api.schemas.document_schemas import DocumentsSchema
+from ninja import ModelSchema, Schema
 
 from api.models.rural_producer_model import RuralProducer
 from api.models.farm_rural_producer_model import FarmRuralProducer
 from api.models.farm_culture_rural_producer_model import FarmCultureRuralProducer
 from api.models.farm_culture_type_model import FarmCultureType
+from api.enums.document_types_enum import DocumentTypesEnum
 
 class CultureTypeSchema(ModelSchema):
     class Meta:
@@ -28,7 +28,6 @@ class FarmSchema(ModelSchema):
         exclude=['created_at', 'updated_at', 'rural_producer']
 
 class RuralProducersSchema(ModelSchema):
-    document_type: DocumentsSchema
     farm: Optional[FarmSchema]
     
     class Meta:
@@ -41,3 +40,23 @@ class RuralProducersSchema(ModelSchema):
             return obj.farm
         else:
             return None
+        
+class NewFarmCulture(Schema):
+    farm_culture_type_id: int
+
+class NewFarmSchema(Schema):
+    name: str
+    total_hectare_area: Decimal
+    arable_hectare_area: Decimal
+    vegetation_hectare_area: Decimal
+
+    cultures: List[NewFarmCulture]
+        
+class NewRuralProducerSchema(Schema):
+    name: str
+    document_type: DocumentTypesEnum
+    document_number: str
+    city: str
+    state: str
+
+    farm: NewFarmSchema

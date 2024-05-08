@@ -12,10 +12,9 @@ if TYPE_CHECKING:
 
 class FarmCultureRuralProducer(BaseModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    farm_culture_type = models.ForeignKey("FarmCultureType", on_delete=models.CASCADE)
-    used_hectare_area = models.DecimalField(max_digits=5, decimal_places=2)
+    farm_culture_type = models.ForeignKey("FarmCultureType", on_delete=models.PROTECT)
 
-    farm = models.ForeignKey("FarmRuralProducer", related_name='cultures', on_delete=models.CASCADE, blank=False, null=True)
+    farm = models.ForeignKey("FarmRuralProducer", related_name='cultures', on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ("farm_id", "farm_culture_type")
