@@ -6,7 +6,8 @@ from django.db import models
 from api.models.base import BaseModel
 
 if TYPE_CHECKING:
-    from models.document_type_model import DocumentType
+    from document_type_model import DocumentType
+    from farm_rural_producer_model import FarmRuralProducer
 
 
 class RuralProducer(BaseModel):
@@ -16,7 +17,7 @@ class RuralProducer(BaseModel):
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=100)
 
-    document_type = models.ForeignKey("DocumentType", on_delete=models.CASCADE)
+    document_type = models.OneToOneField("DocumentType", on_delete=models.CASCADE)
 
     class Meta:
         db_table = "rural_producer"
