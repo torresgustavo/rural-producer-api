@@ -102,7 +102,7 @@ class RuralProducerValidator():
                 raise self.__create_validation_error(
                     valid=False,
                     error_code='FARM_CULTURE_REPEATED',
-                    message=f'Farm culture {culture.name} repeated in the culture list'
+                    message=f'Farm culture {culture['name']} repeated in the culture list'
                 )
 
     

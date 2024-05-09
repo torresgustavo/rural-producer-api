@@ -7,8 +7,10 @@ from django.db import transaction
 from django.http.request import HttpRequest
 
 from api.schemas.rural_producers_schemas import (
+    AddNewFarmCultures,
     EditRuralProducerSchema,
     NewRuralProducerSchema,
+    ViewFarmSchema,
     ViewRuralProducersSchema,
 )
 
@@ -20,9 +22,14 @@ from api.validators.rural_producer_validator import RuralProducerValidator
 from api.services.add_rural_producer_service import AddRuralProducerService
 from api.services.edit_rural_producer_service import EditRuralProducerService
 from api.services.remove_rural_producer_service import RemoveRuralProducerService
+from api.repositories.farm_rural_producer_repository import (
+    FarmRuralProducerRepository,
+)
+from api.services.add_culture_farm_service import AddCultureFarmService
 
 __rural_producers_repository = RuralProducerRepository()
 __culture_types_repository = FarmCultureTypesRepository()
+__farm_rural_producer_repository = FarmRuralProducerRepository()
 
 __rural_producers_validator = RuralProducerValidator(
     rural_producer_repository=__rural_producers_repository,
@@ -115,3 +122,24 @@ def remove_rural_producer(request: HttpRequest, rural_producer_id: UUID):
     service.execute(rural_producer_id)
 
     return "OK"
+
+
+@router.post(
+    "/management/{farm_rural_producer_id}/culture",
+    summary="Add culture to rural producer farm",
+)
+@transaction.atomic
+def add_culture_to_farm(
+    request: HttpRequest,
+    schema: AddNewFarmCultures,
+    farm_rural_producer_id: UUID,
+):
+    service = AddCultureFarmService(
+        farm_rural_producer_repository=__farm_rural_producer_repository,
+        rural_producer_validator=__rural_producers_validator,
+        culture_schema=schema,
+    )
+    farm_rural_producer = service.execute(farm_rural_producer_id)
+
+    data = ViewFarmSchema.from_orm(farm_rural_producer)
+    return Response(data)
