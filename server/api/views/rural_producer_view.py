@@ -26,10 +26,17 @@ from api.repositories.farm_rural_producer_repository import (
     FarmRuralProducerRepository,
 )
 from api.services.add_culture_farm_service import AddCultureFarmService
+from api.repositories.farm_rural_culture_producer_repository import (
+    FarmCultureRuralProducerRepository,
+)
+from api.services.remove_farm_culture_rural_producer_service import (
+    RemoveFarmCultureRuralProducerService,
+)
 
 __rural_producers_repository = RuralProducerRepository()
 __culture_types_repository = FarmCultureTypesRepository()
 __farm_rural_producer_repository = FarmRuralProducerRepository()
+__farm_culture_rural_producer_repository = FarmCultureRuralProducerRepository()
 
 __rural_producers_validator = RuralProducerValidator(
     rural_producer_repository=__rural_producers_repository,
@@ -140,6 +147,27 @@ def add_culture_to_farm(
         culture_schema=schema,
     )
     farm_rural_producer = service.execute(farm_rural_producer_id)
+
+    data = ViewFarmSchema.from_orm(farm_rural_producer)
+    return Response(data)
+
+
+@router.delete(
+    "/management/{farm_rural_producer_id}/culture/{int:culture_type_id}",
+    summary="Remove culture from rural producer farm",
+)
+@transaction.atomic
+def remove_culture_from_farm(
+    request: HttpRequest, farm_rural_producer_id: UUID, culture_type_id: int
+):
+    service = RemoveFarmCultureRuralProducerService(
+        farm_rural_producer_repository=__farm_rural_producer_repository,
+        farm_culture_rural_producer_repository=__farm_culture_rural_producer_repository,
+    )
+
+    farm_rural_producer = service.execute(
+        farm_id=farm_rural_producer_id, farm_culture_type_id=culture_type_id
+    )
 
     data = ViewFarmSchema.from_orm(farm_rural_producer)
     return Response(data)
