@@ -1,49 +1,64 @@
 import re
 
+from api.enums.document_types_enum import DocumentTypesEnum
+from api.errors.invalid_document_type import InvalidDocumentType
+
 
 class DocumentsValidator():
 
-    def cpf_validator(self, cpf: str) -> bool:
-        cpf = re.sub(r'[^0-9]', '', cpf)
+    def __init__(self, document_number: str, document_type: DocumentTypesEnum):
+        self.__document_number = document_number
+        self.__document_type = document_type
+
+    def execute(self):
+        if self.__document_type == DocumentTypesEnum.CPF:
+            return self.__cpf_validator()
+        elif self.__document_type == DocumentTypesEnum.CNPJ:
+            return self.__cnpj_validator()
+        else:
+            raise InvalidDocumentType(self.__document_type)
+
+    def __cpf_validator(self) -> bool:
+        self.__document_number = re.sub(r'[^0-9]', '', self.__document_number)
         
-        if len(cpf) != 11:
+        if len(self.__document_number) != 11:
             return False
         
-        if cpf == cpf[0] * 11:
+        if self.__document_number == self.__document_number[0] * 11:
             return False
         
         digit_sum = 0
         for i in range(9):
-            digit_sum += int(cpf[i]) * (10 - i)
+            digit_sum += int(self.__document_number[i]) * (10 - i)
         first_digit = 11 - (digit_sum % 11)
         if first_digit > 9:
             first_digit = 0
         
         digit_sum = 0
         for i in range(10):
-            digit_sum += int(cpf[i]) * (11 - i)
+            digit_sum += int(self.__document_number[i]) * (11 - i)
         second_digit = 11 - (digit_sum % 11)
         if second_digit > 9:
             second_digit = 0
         
-        if int(cpf[9]) == first_digit and int(cpf[10]) == second_digit:
+        if int(self.__document_number[9]) == first_digit and int(self.__document_number[10]) == second_digit:
             return True
         else:
             return False
 
-    def cnpj_validator(self, cnpj: str) -> bool:
-        cnpj = re.sub(r'[^0-9]', '', cnpj)
+    def __cnpj_validator(self) -> bool:
+        self.__document_number = re.sub(r'[^0-9]', '', self.__document_number)
         
-        if len(cnpj) != 14:
+        if len(self.__document_number) != 14:
             return False
         
-        if cnpj == cnpj[0] * 14:
+        if self.__document_number == self.__document_number[0] * 14:
             return False
         
         total = 0
         multiplier = 5
         for i in range(12):
-            total += int(cnpj[i]) * multiplier
+            total += int(self.__document_number[i]) * multiplier
             multiplier -= 1
             if multiplier == 1:
                 multiplier = 9
@@ -54,7 +69,7 @@ class DocumentsValidator():
         total = 0
         multiplier = 6
         for i in range(13):
-            total += int(cnpj[i]) * multiplier
+            total += int(self.__document_number[i]) * multiplier
             multiplier -= 1
             if multiplier == 1:
                 multiplier = 9
@@ -62,4 +77,4 @@ class DocumentsValidator():
         if digit2 > 9:
             digit2 = 0
         
-        return int(cnpj[12]) == digit1 and int(cnpj[13]) == digit2
+        return int(self.__document_number[12]) == digit1 and int(self.__document_number[13]) == digit2

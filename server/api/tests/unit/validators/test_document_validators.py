@@ -1,6 +1,6 @@
 import pytest
 from api.validators.document_validators import DocumentsValidator
-from server.api.enums.document_types_enum import DocumentTypesEnum
+from api.enums.document_types_enum import DocumentTypesEnum
 
 __document_validator = DocumentsValidator
 
