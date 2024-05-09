@@ -108,8 +108,7 @@ Para acessar a documentação da API acesse [localhost](http://localhost:8000/do
 
 ## Testes 
 
-1. Para execução do teste navegue até a pasta `API`
-2. Execute `poetry run pytest --cov ./api` para rodar todos os testes ou `poetry run pytest ./api/tests/<caminho_do_test>` para executar um(a) módulo/teste em especifíco. Caso deseje visualizar a cobertura de testes basta adicionar `--cov`.
+1. Execute `poetry run pytest --cov ./api` para rodar todos os testes ou `poetry run pytest ./api/tests/<caminho_do_test>` para executar um(a) módulo/teste em especifíco. Caso deseje visualizar a cobertura de testes basta adicionar `--cov`.
 
 ## Linter
 1. Estamos utilizando `black` como linter, para executa-lo basta executar o comando `poetry run black ./api`
