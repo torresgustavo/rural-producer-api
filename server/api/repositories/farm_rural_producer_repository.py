@@ -1,3 +1,4 @@
+from typing import List
 from uuid import UUID
 
 from api.errors.farm_rural_producer_not_found import FarmRuralProducerNotFound
@@ -5,6 +6,10 @@ from api.models.farm_rural_producer_model import FarmRuralProducer
 
 
 class FarmRuralProducerRepository:
+
+    def get_all(self) -> List[FarmRuralProducer]:
+        result = [farm for farm in FarmRuralProducer.objects.all()]
+        return result
 
     def get_by_id(self, id: UUID) -> FarmRuralProducer:
         try:

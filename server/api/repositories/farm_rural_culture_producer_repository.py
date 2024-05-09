@@ -1,3 +1,4 @@
+from typing import List
 from uuid import UUID
 
 from api.errors.farm_rural_producer_culture_not_found import (
@@ -20,6 +21,13 @@ class FarmCultureRuralProducerRepository:
             raise FarmRuralProducerCultureNotFound(
                 culture_id=culture_id, farm_id=farm_id
             )
+
+    def get_by_farm(self, farm_id: UUID) -> List[FarmCultureRuralProducer]:
+        try:
+            result = FarmCultureRuralProducer.objects.filter(farm_id=str(farm_id)).all()
+            return [r for r in result]
+        except FarmCultureRuralProducer.DoesNotExist:
+            raise FarmRuralProducerCultureNotFound(farm_id=farm_id)
 
     def save(self, model: FarmCultureRuralProducer) -> FarmCultureRuralProducer:
         model.save()

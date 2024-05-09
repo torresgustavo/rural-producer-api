@@ -14,12 +14,11 @@ def handling_base_error(request: HttpRequest, exception: BaseError):
         status=exception.status.value,
     )
 
+
 @api.exception_handler(ValidationError)
 def handling_base_error(request: HttpRequest, exception: ValidationError):
-    return api.create_response(
-        request=request,
-        data=exception.errors,
-        status=400
-    )
+    return api.create_response(request=request, data=exception.errors, status=400)
+
 
 api.add_router("/rural-producers", "api.views.rural_producer_view.router")
+api.add_router("/dashboard", "api.views.dashboard_view.router")

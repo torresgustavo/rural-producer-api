@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import Optional
 from uuid import UUID
 from api.errors.base_error import BaseError
 
@@ -8,5 +9,8 @@ class FarmRuralProducerCultureNotFound(BaseError):
     status = HTTPStatus.NOT_FOUND
     details = None
 
-    def __init__(self, farm_id: UUID, culture_id: int):
-        self.message = f"Rural producer farm culture not found: Farm {farm_id} and culture id {culture_id}"
+    def __init__(self, farm_id: UUID, culture_id: Optional[int] = None):
+        self.message = f"Rural producer farm culture not found: Farm {farm_id}"
+
+        if culture_id:
+            self.message += f"and culture id {culture_id}"
