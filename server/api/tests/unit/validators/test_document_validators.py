@@ -1,5 +1,8 @@
 import pytest
-from api.utils.document_validators import cpf_validator, cnpj_validator
+from api.validators.document_validators import DocumentsValidator
+from server.api.enums.document_types_enum import DocumentTypesEnum
+
+__document_validator = DocumentsValidator
 
 @pytest.mark.parametrize("cpf", [
     "123.456.789-09",
@@ -7,7 +10,7 @@ from api.utils.document_validators import cpf_validator, cnpj_validator
     "862.883.667-57",
 ])
 def test_cpf_is_valid(cpf: str):
-    assert cpf_validator(cpf)
+    assert __document_validator(document_number=cpf,document_type=DocumentTypesEnum.CPF).execute()
 
 @pytest.mark.parametrize("cpf", [
     "123.456.789-10",
@@ -20,7 +23,7 @@ def test_cpf_is_valid(cpf: str):
     "529.982.247-2A",
 ])
 def test_cpf_is_invalid(cpf: str):
-    assert cpf_validator(cpf) is False
+    assert __document_validator(document_number=cpf, document_type=DocumentTypesEnum.CPF).execute() is False
 
 @pytest.mark.parametrize("cnpj", [
     "21.149.712/0001-47",
@@ -28,7 +31,7 @@ def test_cpf_is_invalid(cpf: str):
     "39.202.811/0001-00",
 ])
 def test_cnpj_is_valid(cnpj: str):
-    assert cnpj_validator(cnpj)
+    assert __document_validator(document_number=cnpj, document_type=DocumentTypesEnum.CNPJ).execute()
 
 @pytest.mark.parametrize("cnpj", [
     "12.345.678/0001-13",
@@ -41,4 +44,4 @@ def test_cnpj_is_valid(cnpj: str):
     "86.74A.865/0001-58"
 ])
 def test_cnpj_is_invalid(cnpj: str):
-    assert cnpj_validator(cnpj) is False
+    assert __document_validator(document_number=cnpj, document_type=DocumentTypesEnum.CNPJ).execute() is False
