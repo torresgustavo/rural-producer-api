@@ -20,7 +20,7 @@ from .api import api
 
 
 @api.get("/")
-def hello(request):
+def health(request):
     return "OK"
 
 
