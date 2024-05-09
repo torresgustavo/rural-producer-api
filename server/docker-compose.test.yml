@@ -1,0 +1,33 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    restart: always
+    shm_size: 128mb
+    environment:
+      POSTGRES_PASSWORD: test
+      POSTGRES_USER: test
+      POSTGRES_DB: test
+      PGPORT: 5433
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - ${PWD}/server/api/tests/data:/var/lib/postgresql/data
+    ports:
+      - 5433:5433
+  migrator:
+    build: .
+    command: 
+      - /bin/bash
+      - -c
+      - |
+        python manage.py migrate
+    environment:
+      - DB_NAME=test
+      - DB_HOST=db
+      - DB_USER=test
+      - DB_PASSWORD=test
+      - DB_PORT=5433
+      - ENV=test
+      - API_SECRET=test
+    depends_on:
+      - db
