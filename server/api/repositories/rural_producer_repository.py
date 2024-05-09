@@ -6,6 +6,7 @@ from api.errors.rural_producer_not_found import RuralProducerNotFoundError
 from api.models.rural_producer_model import RuralProducer
 from api.models.base import BaseModel
 
+
 class RuralProducerRepository:
     def get_by_id(self, id: UUID) -> RuralProducer:
         try:
@@ -13,7 +14,6 @@ class RuralProducerRepository:
             return result
         except RuralProducer.DoesNotExist:
             raise RuralProducerNotFoundError(str(id))
-
 
     def get_all(self) -> BaseManager[RuralProducer]:
         result = RuralProducer.objects.all()
@@ -29,3 +29,6 @@ class RuralProducerRepository:
 
     def save(self, model: BaseModel):
         model.save()
+
+    def remove(self, model: BaseModel):
+        model.delete()
