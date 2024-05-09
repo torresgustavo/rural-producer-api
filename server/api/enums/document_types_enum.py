@@ -1,5 +1,6 @@
 import enum
 
+
 class DocumentTypesEnum(enum.StrEnum):
-    CPF='CPF',
-    CNPJ='CNPJ'
+    CPF = ("CPF",)
+    CNPJ = "CNPJ"

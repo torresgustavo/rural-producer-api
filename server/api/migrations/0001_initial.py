@@ -14,6 +14,7 @@ def insert_farm_culture_types_initial_data(apps: django.apps.apps, schema_editor
     culture_type_model.objects.create(name="Café")
     culture_type_model.objects.create(name="Cana de Açucar")
 
+
 class Migration(migrations.Migration):
 
     initial = True
@@ -155,5 +156,5 @@ class Migration(migrations.Migration):
                 "unique_together": {("farm_id", "farm_culture_type")},
             },
         ),
-        migrations.RunPython(insert_farm_culture_types_initial_data)
+        migrations.RunPython(insert_farm_culture_types_initial_data),
     ]
